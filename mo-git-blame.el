@@ -1,4 +1,4 @@
-;;; mo-git-blame --- An interactive, iterative 'git blame' mode for Emacs
+;;; mo-git-blame.el --- An interactive, iterative 'git blame' mode for Emacs
 
 ;; Copyright (C) 2009, 2010  Moritz Bunkus <moritz@bunkus.org>
 ;; Copyright (C) 2010  Štěpán Němec <stepnem@gmail.com>
@@ -764,3 +764,5 @@ blamed."
 ;; Leave this in for debugging purposes:
 ;; (global-set-key [?\C-c ?i ?b] (lambda () (interactive) (let ((mo-git-blame-incremental t)) (mo-git-blame-current))))
 ;; (global-set-key [?\C-c ?i ?B] (lambda () (interactive) (let ((mo-git-blame-incremental nil)) (mo-git-blame-current))))
+
+;;; mo-git-blame.el ends here
