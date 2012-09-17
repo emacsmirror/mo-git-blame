@@ -723,7 +723,7 @@ blamed."
 (defun mo-git-blame-display-content-buffer ()
   "Show the content buffer in the content window."
   (interactive)
-  ; Declare buffer here because mo-git-blame-vars might not be available in the other buffer.
+  ;; Declare buffer here because mo-git-blame-vars might not be available in the other buffer.
   (let ((buffer (plist-get mo-git-blame-vars :content-buffer))
         (line-num (line-number-at-pos)))
     (mo-git-blame-goto-line-markless line-num)
