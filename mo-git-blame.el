@@ -87,7 +87,7 @@ interactive use, e.g. the file name, current revision etc.")
   "MoGitBlame menu"
   '("MoGitBlame"
     ["Re-blame for revision at point" mo-git-blame-reblame-for-revision-at t]
-    ["Re-blame for ancestor of revision at point" mo-git-blame-reblame-for-ancestor-of-revision-at-point t]
+    ["Re-blame for ancestor of revision at point" mo-git-blame-reblame-for-ancestor-of-revision-at t]
     ["Raw content for revision at point" mo-git-blame-content-for-revision-at t]
     ["Log for revision at point" mo-git-blame-log-for-revision-at t]
     ["Overwrite file with revision at point" mo-git-blame-overwrite-file-with-revision-at t]
