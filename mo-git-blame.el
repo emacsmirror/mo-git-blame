@@ -116,6 +116,12 @@ interactive use, e.g. the file name, current revision etc.")
   :group 'mo-git-blame
   :type 'string)
 
+(defcustom mo-git-blame-git-blame-args ""
+  "Additional arguments to pass to git blame."
+  :group 'mo-git-blame
+  :type 'string)
+
+
 (defcustom mo-git-blame-incremental t
   "Runs `git blame' in the background with the --incremental
 option if this variable is non-nil."
@@ -524,7 +530,7 @@ from elisp.
     (if start-line
         (setq args (append (list "-L" (format "%d,+%d" start-line lines-to-blame))
                            args)))
-    (apply 'mo-git-blame-run "blame" args)
+    (apply 'mo-git-blame-run "blame" mo-git-blame-git-blame-args args)
 
     (if num-lines-to-append
         (dotimes (i num-lines-to-append)
@@ -541,7 +547,7 @@ from elisp.
         (setq args (append (list "-L" (format "%d,+%d" start-line lines-to-blame))
                            args)))
     (mo-git-blame-assert-not-running)
-    (apply 'mo-git-blame-run* "blame" args)))
+    (apply 'mo-git-blame-run* "blame" mo-git-blame-git-blame-args args)))
 
 (defun mo-git-blame-init-blame-buffer (start-line lines-to-blame)
   (if mo-git-blame-incremental
