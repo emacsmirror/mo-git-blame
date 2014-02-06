@@ -760,7 +760,7 @@ blamed."
   (interactive)
   (if (null (buffer-file-name))
       (error "The current buffer is not associated with a file."))
-  (mo-git-blame-file (buffer-file-name)))
+  (mo-git-blame-file (file-truename (buffer-file-name))))
 
 ;;;###autoload
 (defun mo-git-blame-current-for-revision (revision)
@@ -768,7 +768,7 @@ blamed."
   (interactive "sRevision: ")
   (if (null (buffer-file-name))
       (error "The current buffer is not associated with a file."))
-  (mo-git-blame-file (buffer-file-name) revision))
+  (mo-git-blame-file (file-truename (buffer-file-name)) revision))
 
 (provide 'mo-git-blame)
 
