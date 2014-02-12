@@ -515,6 +515,11 @@ from elisp.
         truncate-lines t)
   (use-local-map mo-git-blame-mode-map))
 
+(defun mo-git-blame--make-args (args)
+  (delete ""
+          (append (list mo-git-blame-git-blame-args)
+                  args)))
+
 (defun mo-git-blame-run-blame-normally (start-line lines-to-blame)
   (let* ((num-content-lines (mo-git-blame-number-of-content-lines))
          (num-lines-to-append (if (and start-line
@@ -530,7 +535,7 @@ from elisp.
     (if start-line
         (setq args (append (list "-L" (format "%d,+%d" start-line lines-to-blame))
                            args)))
-    (apply 'mo-git-blame-run "blame" mo-git-blame-git-blame-args args)
+    (apply 'mo-git-blame-run "blame" (mo-git-blame--make-args args))
 
     (if num-lines-to-append
         (dotimes (i num-lines-to-append)
@@ -547,7 +552,7 @@ from elisp.
         (setq args (append (list "-L" (format "%d,+%d" start-line lines-to-blame))
                            args)))
     (mo-git-blame-assert-not-running)
-    (apply 'mo-git-blame-run* "blame" mo-git-blame-git-blame-args args)))
+    (apply 'mo-git-blame-run* "blame" (mo-git-blame--make-args args))))
 
 (defun mo-git-blame-init-blame-buffer (start-line lines-to-blame)
   (if mo-git-blame-incremental
