@@ -146,6 +146,17 @@ option if this variable is non-nil."
                  (const :tag "If available" if-available)
                  (const :tag "Never" never)))
 
+(defcustom mo-git-blame-use-magit 'if-available
+  "Controls whether or not magit will be used. Possible choices:
+
+  `never'        -- do not use magit even if it is loaded
+  `if-available' -- use magit if it has been loaded before
+  `always'       -- automatically load magit and use it"
+  :group 'mo-git-blame
+  :type '(choice (const :tag "Always" always)
+                 (const :tag "If available" if-available)
+                 (const :tag "Never" never)))
+
 ;; This function was taken from magit (called 'magit-trim-line' there).
 (defun mo-git-blame-trim-line (str)
   (cond ((string= str "")
@@ -355,13 +366,29 @@ git is already/still running."
   (interactive)
   (mo-git-blame-log-for-revision (plist-get mo-git-blame-vars :current-revision)))
 
+(defun mo-git-blame-show-revision--diff-mode (revision)
+  "Internal function that fills the current buffer with revision using diff-mode"
+  (erase-buffer)
+  (mo-git-blame-run "show" revision)
+  (goto-char (point-min))
+  (diff-mode))
+
+(defun mo-git-blame-show-revision--magit (revision)
+  "Internal function that fills the current buffer with revision using magit"
+  (let ((magit-commit-buffer-name (buffer-name)))
+    (magit-show-commit revision)))
+
 (defun mo-git-blame-show-revision (revision)
-  (let ((buffer (mo-git-blame-get-output-buffer)))
+  (let ((buffer (mo-git-blame-get-output-buffer))
+        (the-func (cond ((eq mo-git-blame-use-magit 'always)
+                         (require 'magit)
+                         'mo-git-blame-show-revision--magit)
+                        ((and (eq mo-git-blame-use-magit 'if-available)
+                              (functionp 'magit-show-commit))
+                         'mo-git-blame-show-revision--magit)
+                        (t 'mo-git-blame-show-revision--diff-mode))))
     (with-current-buffer buffer
-      (erase-buffer)
-      (mo-git-blame-run "show" revision)
-      (goto-char (point-min))
-      (diff-mode))
+      (funcall the-func revision))
     (display-buffer buffer)))
 
 (defun mo-git-blame-show-revision-at ()
