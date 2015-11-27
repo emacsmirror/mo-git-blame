@@ -237,7 +237,7 @@ git is already/still running."
     (save-excursion
       (let ((inhibit-read-only t)
             (info (format "%s (%s %s %s) %s"
-                          (substring (symbol-name (plist-get entry :hash)) 0 8)
+                          (substring (symbol-name (plist-get entry :hash)) 0 7)
                           (plist-get entry :author)
                           (format-time-string "%Y-%m-%d %T" (mo-git-blame-commit-info-to-time entry) t)
                           (plist-get entry :author-tz)
