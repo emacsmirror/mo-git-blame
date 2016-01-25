@@ -525,6 +525,9 @@ option. Otherwise the whole file is blamed."
       (goto-char (point-max))
       (line-number-at-pos))))
 
+(defvar mo-git-blame-mode-hook nil
+  "Mode hook.")
+
 (defun mo-git-blame-mode ()
   "Show the output of 'git blame' and the content of the file in
 two frames side-by-side. Allows iterative re-blaming for specific
@@ -540,7 +543,8 @@ from elisp.
         mode-name "MoGitBlame"
         mode-line-process ""
         truncate-lines t)
-  (use-local-map mo-git-blame-mode-map))
+  (use-local-map mo-git-blame-mode-map)
+  (run-hooks 'mo-git-blame-mode-hook))
 
 (defun mo-git-blame--make-args (args)
   (delete ""
