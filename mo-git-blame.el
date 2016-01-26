@@ -574,7 +574,7 @@ from elisp.
 
 (defun mo-git-blame-run-blame-incrementally (start-line lines-to-blame)
   (let* ((num-content-lines (mo-git-blame-number-of-content-lines))
-         i)
+         i args)
     (dotimes (i (1- num-content-lines))
       (insert "\n"))
 
