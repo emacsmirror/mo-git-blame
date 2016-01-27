@@ -157,6 +157,14 @@ option if this variable is non-nil."
                  (const :tag "If available" if-available)
                  (const :tag "Never" never)))
 
+(defcustom mo-git-blame-delete-other-windows nil
+  "Delete other windows before setting up the blame-window and the
+content-window if variable is non-nil."
+
+  :group 'mo-git-blame
+  :type '(choice (const :tag "Delete other windows" t)
+                 (const :tag "Don't delete other windows" nil)))
+
 ;; This function was taken from magit (called 'magit-trim-line' there).
 (defun mo-git-blame-trim-line (str)
   (cond ((string= str "")
@@ -681,8 +689,12 @@ blamed."
                 (cons (list :full-file-name (plist-get prior-vars :full-file-name)
                             :revision (plist-get prior-vars :current-revision))
                       prior-revisions))))
+    (when mo-git-blame-delete-other-windows
+      (delete-other-windows-internal))
     (if (window-full-width-p)
-        (split-window-horizontally mo-git-blame-blame-window-width))
+        (split-window-horizontally mo-git-blame-blame-window-width)
+      (shrink-window-horizontally (- (window-width)
+                                     mo-git-blame-blame-window-width)))
     (select-window (setq content-window (next-window)))
     (switch-to-buffer content-buffer)
     (select-window blame-window)
